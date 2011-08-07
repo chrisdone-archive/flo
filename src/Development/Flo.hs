@@ -8,68 +8,86 @@
 --
 -- The syntax is as follows:
 --
---    expr  <- label / next / do / if / task
---    label <- "label" name
---    task <- "task" text
---    next  <- "next" name / "trigger" name
---    do    <- "do" text
---    if    <- "if" name "\n" "then" name ("\n" "else" name)?
+-- @
+--  expr  <- label \/ next \/ do \/ if \/ task
+--  label <- \"label\" name
+--  task  <- \"task\" text
+--  next  <- \"next\" name \/ \"trigger\" name
+--  do    <- \"do\" text
+--  if    <- \"if\" name \"\\n\" \"then\" name (\"\\n\" \"else\" name)?
+-- @
 -- 
---  where `name' and `text' are both arbitrary text.
+--  where @name@ and @text@ are both arbitrary text.
 --
--- A `label' is used to label a node in the graph.  `next' is used to
+-- A @label@ is used to label a node in the graph.  @next@ is used to
 -- link the current node to another node by its label.  The text for a
--- node is written by `do', which explains what this node does, or by
--- using `if' which makes this node a conditional which goes to one of
+-- node is written by @do@, which explains what this node does, or by
+-- using @if@ which makes this node a conditional which goes to one of
 -- two possible nodes.
 --
--- Example (assuming '///' to be the declaration prefix):
+-- Example (assuming '\/\//' to be the declaration prefix):
 --
--- /// label main
--- /// if Logged in?
--- /// then display_overview
--- /// else display_login
-
--- /// label display_overview
--- /// do Display overview.
--- /// next display_event
--- /// next display_paper
--- // Event list code here.
--- event_list();
-
--- /// label display_login
--- /// do Display login.
--- /// next try_login
--- // Login display code here.
--- display_login();
-
--- /// label try_login
--- /// do Check login.
--- /// next main
--- /// trigger log_access_time
--- // Login attempt code here.
--- if(check_login()) log_attempt_success();
-
--- /// label display_event
--- /// do Display a single event.
--- /// next display_paper
--- // Event list code here.
--- display_event();
-
--- /// label display_paper
--- /// do Display a single paper.
--- // Paper display code here.
--- display_paper();
-
--- /// label log_access_time
--- /// task Log login accesses.
--- log_login();
+-- @
+--  \/\/\/ label main
+--  \/\/\/ if Logged in?
+--  \/\/\/ then display_overview
+--  \/\/\/ else display_login
+--  \/\/\/ label display_overview
+--  \/\/\/ do Display overview.
+--  \/\/\/ next display_event
+--  \/\/\/ next display_paper
+--  \/\/ Event list code here.
+--  event_list();
+--  \/\/\/ label display_login
+--  \/\/\/ do Display login.
+--  \/\/\/ next try_login
+--  \/\/ Login display code here.
+--  display_login();
+--  \/\/\/ label try_login
+--  \/\/\/ do Check login.
+--  \/\/\/ next main
+--  \/\/\/ trigger log_access_time
+--  \/\/ Login attempt code here.
+--  if(check_login()) log_attempt_success();
+--  \/\/\/ label display_event
+--  \/\/\/ do Display a single event.
+--  \/\/\/ next display_paper
+--  \/\/ Event list code here.
+--  display_event();
+--  \/\/\/ label display_paper
+--  \/\/\/ do Display a single paper.
+--  \/\/ Paper display code here.
+--  display_paper();
+--  \/\/\/ label log_access_time
+--  \/\/\/ task Log login accesses.
+--  log_login();
+-- @
 --
 -- In other words: You have a main page which either displays a login
 -- screen or lists the user's events if logged in. From the events
 -- page you can get to the event page.
+--
+-- Custom syntax can be used, too. Example:
+--
+-- @
+--  {- # bar -}
+-- SELECT * FROM mysql;
+-- @
+-- 
 
-module Development.Flo where
+module Development.Flo
+  (-- * Types
+   Node (..),
+   Type (..),
+   Edge (..),
+   Decl (..),
+   Name,
+   -- * Functions
+   digraph,
+   nodesToDot,
+   declsToNodes,
+   parseFile)
+  where
 
 import           Control.Applicative
 import           Control.Monad.Error  ()
