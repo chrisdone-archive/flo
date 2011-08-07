@@ -1,0 +1,21 @@
+Name:                flo
+Version:             0.1
+Synopsis:            Generate flow charts from your code base.
+License:             BSD3
+License-file:        LICENSE
+Author:              Chris Done
+Maintainer:          chrisdone@gmail.com
+Category:            Development
+Build-type:          Simple
+Cabal-version:       >=1.2
+
+Executable flo
+  Hs-source-dirs:    src
+  Ghc-options:       -O2 -Wall
+  Main-is:           Main.hs
+  Build-depends:     base > 4 && <5,
+                     text >= 0.11,
+                     mtl >= 1.1,
+                     parsec >= 3.0,
+                     bytestring >= 0.9,
+                     regex-compat >= 0.92
