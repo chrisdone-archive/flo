@@ -1,9 +1,9 @@
 Name:                flo
-Version:             0.1
+Version:             0.1.1
 Synopsis:            Generate flow charts from your code base.
 Description:
   See "Development.Flo" for syntax and examples. Example commandline usage:
-   
+
   @
    find . | grep '\.js$' | xargs flo '-js=\/\/\/ ' | dot -Tpng > flow.png
   @
