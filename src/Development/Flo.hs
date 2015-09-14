@@ -91,7 +91,7 @@ module Development.Flo
   where
 
 import           Control.Applicative
-import           Control.Monad.Error  ()
+import           Control.Monad.Except ()
 import           Control.Monad.State
 import           Control.Monad.Writer
 import           Data.ByteString      (ByteString)
