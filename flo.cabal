@@ -22,10 +22,10 @@ Library
   Exposed-modules:   Development.Flo
   Build-depends:     base > 4 && <5,
                      text >= 0.11,
-                     mtl >= 1.1,
                      parsec >= 3.0,
                      bytestring >= 0.9,
-                     regex-compat >= 0.92
+                     regex-compat >= 0.92,
+                     mtl-compat
 
 Executable flo
   Hs-source-dirs:    src

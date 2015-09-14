@@ -3,6 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 -- | Generate a flow chart by from annotations from a code base.
 --
@@ -90,9 +91,9 @@ module Development.Flo
   where
 
 import           Control.Applicative
-import           Control.Monad.Error  ()
-import           Control.Monad.State
-import           Control.Monad.Writer
+import           Control.Monad.Except ()
+import           Control.Monad.State  hiding (void)
+import           Control.Monad.Writer hiding (void)
 import           Data.ByteString      (ByteString)
 import qualified Data.ByteString      as B
 import           Data.Char
